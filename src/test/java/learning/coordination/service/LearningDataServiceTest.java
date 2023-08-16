@@ -1,0 +1,74 @@
+package learning.coordination.service;
+
+import learning.coordination.dto.learning_data.CompletedLearningData;
+import learning.coordination.service.default_values.LearningDataDefaultValues;
+import learning.coordination.service.test_values.LearningDataTestValues;
+import learning.coordination.service.test_values.LearningInformationTestValues;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest
+class LearningDataServiceTest {
+
+    @Autowired
+    private LearningDataService learningDataService;
+
+    @BeforeEach
+    public void initQuestion() {
+        // given
+        learningDataService.initLearningData(LearningDataTestValues.TEST_ID);
+    }
+
+    @Test
+    public void testFindAnswer() {
+        // when
+        String expectedAnswer = LearningDataDefaultValues.EMPTY_ANSWER;
+        String actualAnswer = learningDataService.findAnswer(LearningDataTestValues.TEST_ID);
+        //given
+        assertThat(actualAnswer).isEqualTo(expectedAnswer);
+    }
+
+    @Test
+    public void testUpdateAnswer() {
+        // when
+        learningDataService.updateAnswer(LearningDataTestValues.TEST_ID, LearningDataTestValues.TEST_ANSWER);
+        String actualUpdatedAnswer = learningDataService.findAnswer(LearningDataTestValues.TEST_ID);
+        //then
+        assertThat(actualUpdatedAnswer).isEqualTo(LearningDataTestValues.TEST_ANSWER);
+    }
+
+    @Test
+    public void testSetLearningTarget() {
+        // when
+        learningDataService.setLearningTarget(LearningDataTestValues.TEST_ID, LearningDataTestValues.TEST_LEARNING_TARGET);
+        String resultLearningTarget = learningDataService.getCompletedLearningData(LearningDataTestValues.TEST_ID).getLearningTarget();
+        // then
+        assertThat(resultLearningTarget).isEqualTo(LearningDataTestValues.TEST_LEARNING_TARGET);
+    }
+
+    @Test
+    public void testSetMaterial() {
+        // when
+        learningDataService.setMaterial(1L, LearningDataTestValues.TEST_MATERIAL);
+        String resultMaterial = learningDataService.getCompletedLearningData(LearningDataTestValues.TEST_ID).getMaterial();
+        // then
+        assertThat(resultMaterial).isEqualTo(LearningDataTestValues.TEST_MATERIAL);
+    }
+
+    @Test
+    public void testGetCompletedLearningData() {
+        // when
+        learningDataService.updateAnswer(LearningDataTestValues.TEST_ID, LearningDataTestValues.TEST_ANSWER);
+        learningDataService.setLearningTarget(LearningDataTestValues.TEST_ID, LearningDataTestValues.TEST_LEARNING_TARGET);
+        learningDataService.setMaterial(LearningDataTestValues.TEST_ID, LearningDataTestValues.TEST_MATERIAL);
+        CompletedLearningData resultCompletedLearningData = learningDataService.getCompletedLearningData(LearningDataTestValues.TEST_ID);
+        // then
+        assertThat(resultCompletedLearningData.getModifiedAnswer()).isEqualTo(LearningDataTestValues.TEST_ANSWER);
+        assertThat(resultCompletedLearningData.getLearningTarget()).isEqualTo(LearningDataTestValues.TEST_LEARNING_TARGET);
+        assertThat(resultCompletedLearningData.getMaterial()).isEqualTo(LearningDataTestValues.TEST_MATERIAL);
+    }
+}
