@@ -1,5 +1,9 @@
 package learning.coordination.service;
 
+import com.theokanning.openai.completion.CompletionRequest;
+import com.theokanning.openai.completion.CompletionResult;
+import com.theokanning.openai.service.OpenAiService;
+import learning.coordination.service.default_values.GptDefaultValues;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +13,18 @@ public class GptService {
 
     private final QuestionService questionService;
     private final LearningDataService learningDataService;
+
     public void callGpt(Long id) {
-        // 임시 코드 gpt api 사용으로 바꾸기
         String prompt = questionService.findPromptById(id);
-        String answer = "answer: " + prompt;
+        OpenAiService openAiService = new OpenAiService(GptDefaultValues.API_KEY);
+        CompletionRequest request = CompletionRequest.builder()
+                .prompt(prompt)
+                .maxTokens(GptDefaultValues.MAX_TOKENS)
+                .temperature(GptDefaultValues.TEMPERATURE)
+                .build();
+        CompletionResult response = openAiService.createCompletion(request);
+        String answer = response.getChoices().get(0).getText();
         learningDataService.updateAnswer(id, answer);
     }
 }
+
