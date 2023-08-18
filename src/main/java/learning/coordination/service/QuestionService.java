@@ -21,6 +21,7 @@ public class QuestionService {
                 .template(QuestionDefaultValues.TEMPLATE)
                 .difficulties(QuestionDefaultValues.DIFFICULTIES)
                 .fields(QuestionDefaultValues.FIELDS)
+                .topics(QuestionDefaultValues.TOPICS)
                 .prompt(QuestionDefaultValues.EMPTY_PROMPT)
                 .build();
         question.setId(id);
@@ -30,6 +31,7 @@ public class QuestionService {
         String template = findTemplateById(id);
         template = template.replace(QuestionDefaultValues.KEYWORD1, selectedEnglishKeywords.getDifficulty());
         template = template.replace(QuestionDefaultValues.KEYWORD2, selectedEnglishKeywords.getField());
+        template = template.replace(QuestionDefaultValues.KEYWORD3, selectedEnglishKeywords.getTopic());
         updatePromptById(id, template);
     }
     public void updatePromptById(Long id, String modifiedPrompt) {
@@ -39,21 +41,19 @@ public class QuestionService {
     }
     public String findTemplateById(Long id) {
         Question question = findQuestion(id);
-        String template = question.getTemplate();
-        return template;
+        return question.getTemplate();
     }
     public EnglishKeywords findEnglishKeywordsById(Long id) {
         Question question = findQuestion(id);
-        EnglishKeywords englishKeywords = EnglishKeywords.builder()
+        return EnglishKeywords.builder()
                 .difficulties(question.getDifficulties())
                 .fields(question.getFields())
+                .topics(question.getTopics())
                 .build();
-        return englishKeywords;
     }
     public String findPromptById(Long id) {
         Question question = findQuestion(id);
-        String prompt = question.getPrompt();
-        return prompt;
+        return question.getPrompt();
     }
     private Question findQuestion(Long id) {
         Optional<Question> questionOptional = questionRepository.findById(id);

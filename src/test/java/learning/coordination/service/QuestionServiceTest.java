@@ -40,6 +40,8 @@ class QuestionServiceTest {
                 .containsExactlyElementsOf(QuestionDefaultValues.DIFFICULTIES);
         assertThat(resultEnglishKeywords.getFields())
                 .containsExactlyElementsOf(QuestionDefaultValues.FIELDS);
+        assertThat(resultEnglishKeywords.getTopics())
+                .containsExactlyElementsOf(QuestionDefaultValues.TOPICS);
     }
 
     @Test
@@ -63,14 +65,17 @@ class QuestionServiceTest {
         // given
         SelectedEnglishKeywords selectedEnglishKeywords =
                 SelectedEnglishKeywords.builder()
-                .difficulty(QuestionDefaultValues.DIFFICULTIES.get(0))
-                .field(QuestionDefaultValues.FIELDS.get(0))
-                .build();
+                        .difficulty(QuestionDefaultValues.DIFFICULTIES.get(0))
+                        .field(QuestionDefaultValues.FIELDS.get(0))
+                        .topic(QuestionDefaultValues.TOPICS.get(0))
+                        .build();
+
         // when
         questionService.selectPromptById(QuestionTestValues.TEST_ID, selectedEnglishKeywords);
         String expectedPrompt = QuestionDefaultValues.TEMPLATE;
         expectedPrompt = expectedPrompt.replace(QuestionDefaultValues.KEYWORD1, QuestionDefaultValues.DIFFICULTIES.get(0));
         expectedPrompt = expectedPrompt.replace(QuestionDefaultValues.KEYWORD2, QuestionDefaultValues.FIELDS.get(0));
+        expectedPrompt = expectedPrompt.replace(QuestionDefaultValues.KEYWORD3, QuestionDefaultValues.TOPICS.get(0));
         // then
         assertThat(questionService.findPromptById(QuestionTestValues.TEST_ID)).isEqualTo(expectedPrompt);
     }
