@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name = "learning_information")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LearningInformation {
@@ -16,10 +16,10 @@ public class LearningInformation {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(name = "understandingThings", nullable = false)
+    @Column(name = "understanding_things", nullable = false)
     private String understandingThings;
 
-    @Column(name = "misUnderstandingThings", nullable = false)
+    @Column(name = "mis_understanding_things", nullable = false)
     private String misUnderstandingThings;
 
     @Builder

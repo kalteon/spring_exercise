@@ -18,9 +18,9 @@ public class QuestionService {
 
     public void initQuestion(Long id) {
         Question question = Question.builder()
-                .template(QuestionDefaultValues.QUESTION_TEMPLATE)
-                .difficulties(QuestionDefaultValues.QUESTION_DIFFICULTIES)
-                .fields(QuestionDefaultValues.QUESTION_FIELDS)
+                .template(QuestionDefaultValues.TEMPLATE)
+                .difficulties(QuestionDefaultValues.DIFFICULTIES)
+                .fields(QuestionDefaultValues.FIELDS)
                 .prompt(QuestionDefaultValues.EMPTY_PROMPT)
                 .build();
         question.setId(id);

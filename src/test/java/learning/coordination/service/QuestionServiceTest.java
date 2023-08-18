@@ -28,7 +28,7 @@ class QuestionServiceTest {
         // when
         String resultTemplate = questionService.findTemplateById(QuestionTestValues.TEST_ID);
         // then
-        assertThat(resultTemplate).isEqualTo(QuestionDefaultValues.QUESTION_TEMPLATE);
+        assertThat(resultTemplate).isEqualTo(QuestionDefaultValues.TEMPLATE);
     }
 
     @Test
@@ -37,9 +37,9 @@ class QuestionServiceTest {
         EnglishKeywords resultEnglishKeywords = questionService.findEnglishKeywordsById(QuestionTestValues.TEST_ID);
         // then
         assertThat(resultEnglishKeywords.getDifficulties())
-                .containsExactlyElementsOf(QuestionDefaultValues.QUESTION_DIFFICULTIES);
+                .containsExactlyElementsOf(QuestionDefaultValues.DIFFICULTIES);
         assertThat(resultEnglishKeywords.getFields())
-                .containsExactlyElementsOf(QuestionDefaultValues.QUESTION_FIELDS);
+                .containsExactlyElementsOf(QuestionDefaultValues.FIELDS);
     }
 
     @Test
@@ -63,14 +63,14 @@ class QuestionServiceTest {
         // given
         SelectedEnglishKeywords selectedEnglishKeywords =
                 SelectedEnglishKeywords.builder()
-                .difficulty(QuestionDefaultValues.QUESTION_DIFFICULTIES.get(0))
-                .field(QuestionDefaultValues.QUESTION_FIELDS.get(0))
+                .difficulty(QuestionDefaultValues.DIFFICULTIES.get(0))
+                .field(QuestionDefaultValues.FIELDS.get(0))
                 .build();
         // when
         questionService.selectPromptById(QuestionTestValues.TEST_ID, selectedEnglishKeywords);
-        String expectedPrompt = QuestionDefaultValues.QUESTION_TEMPLATE;
-        expectedPrompt = expectedPrompt.replace(QuestionDefaultValues.KEYWORD1, QuestionDefaultValues.QUESTION_DIFFICULTIES.get(0));
-        expectedPrompt = expectedPrompt.replace(QuestionDefaultValues.KEYWORD2, QuestionDefaultValues.QUESTION_FIELDS.get(0));
+        String expectedPrompt = QuestionDefaultValues.TEMPLATE;
+        expectedPrompt = expectedPrompt.replace(QuestionDefaultValues.KEYWORD1, QuestionDefaultValues.DIFFICULTIES.get(0));
+        expectedPrompt = expectedPrompt.replace(QuestionDefaultValues.KEYWORD2, QuestionDefaultValues.FIELDS.get(0));
         // then
         assertThat(questionService.findPromptById(QuestionTestValues.TEST_ID)).isEqualTo(expectedPrompt);
     }

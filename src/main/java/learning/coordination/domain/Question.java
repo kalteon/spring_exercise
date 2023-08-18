@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Entity
+@Entity(name = "question")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Question {

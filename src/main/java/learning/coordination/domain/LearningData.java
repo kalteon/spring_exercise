@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name = "learning_data")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LearningData {
@@ -19,7 +19,7 @@ public class LearningData {
     @Column(name = "answer", nullable = false)
     private String answer;
 
-    @Column(name = "learningTarget", nullable = false)
+    @Column(name = "learning_target", nullable = false)
     private String learningTarget;
 
     @Column(name = "material", nullable = false)
