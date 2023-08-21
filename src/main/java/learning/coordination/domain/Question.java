@@ -18,7 +18,7 @@ public class Question {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(name = "template", nullable = false, length = 1000)
+    @Column(name = "template", nullable = false, length = 1024)
     private String template;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -33,7 +33,7 @@ public class Question {
     @CollectionTable(name = "topics", joinColumns = @JoinColumn(name = "topic_id"))
     private List<String> topics;
 
-    @Column(name = "prompt", nullable = false, length = 1000)
+    @Column(name = "prompt", nullable = false, length = 1024)
     private String prompt;
 
     @Builder

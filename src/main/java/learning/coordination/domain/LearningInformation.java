@@ -16,10 +16,10 @@ public class LearningInformation {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(name = "understanding_things", nullable = false)
+    @Column(name = "understanding_things", nullable = false, length = 1024)
     private String understandingThings;
 
-    @Column(name = "mis_understanding_things", nullable = false)
+    @Column(name = "mis_understanding_things", nullable = false, length = 1024)
     private String misUnderstandingThings;
 
     @Builder

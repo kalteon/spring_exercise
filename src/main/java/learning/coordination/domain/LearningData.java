@@ -16,13 +16,13 @@ public class LearningData {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(name = "answer", nullable = false)
+    @Column(name = "answer", nullable = false, length = 1024)
     private String answer;
 
-    @Column(name = "learning_target", nullable = false)
+    @Column(name = "learning_target", nullable = false, length = 1024)
     private String learningTarget;
 
-    @Column(name = "material", nullable = false)
+    @Column(name = "material", nullable = false, length = 1024)
     private String material;
 
     @Builder
