@@ -1,43 +1,57 @@
 package learning.coordination.controller;
 
-import learning.coordination.dto.question.EnglishKeywords;
-import learning.coordination.dto.question.ModifyPromptRequest;
-import learning.coordination.dto.question.SelectEnglishKeywordsRequest;
+import learning.coordination.controller.default_values.ControllerDefaults;
+import learning.coordination.dto.request.ModifyPromptRequest;
+import learning.coordination.dto.request.SelectEnglishKeywordsRequest;
+import learning.coordination.dto.response.MessageResponse;
+import learning.coordination.dto.question.*;
+import learning.coordination.dto.response.PromptResponse;
+import learning.coordination.dto.response.TemplateResponse;
 import learning.coordination.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping(ControllerDefaults.API_BASE_PATH)
 public class QuestionController {
 
     private final QuestionService questionService;
 
-    @GetMapping("/api/template/{id}")
-    public String findTemplateById(@PathVariable Long id) {
-        String template = questionService.findTemplateById(id);
-        return template;
+    @GetMapping("template/{id}")
+    public ResponseEntity<TemplateResponse> findTemplateById(@PathVariable Long id) {
+        TemplateResponse template = TemplateResponse.builder()
+                .template(questionService.findTemplateById(id)).build();
+        return ResponseEntity.ok(template);
     }
-    @GetMapping("/api/english-keywords/{id}")
-    public EnglishKeywords findEnglishKeywords(@PathVariable Long id) {
+
+    @GetMapping("english-keywords/{id}")
+    public ResponseEntity<EnglishKeywords> findEnglishKeywords(@PathVariable Long id) {
         EnglishKeywords englishKeywords = questionService.findEnglishKeywordsById(id);
-        return englishKeywords;
+        return ResponseEntity.ok(englishKeywords);
     }
-    @PostMapping("/api/english-keywords")
-    public void selectEnglishKeywords(@RequestBody SelectEnglishKeywordsRequest selectEnglishKeywordRequest) {
+
+    @PostMapping("english-keywords")
+    public ResponseEntity<MessageResponse> selectEnglishKeywords(@RequestBody SelectEnglishKeywordsRequest selectEnglishKeywordRequest) {
         questionService.selectPromptById(
                 selectEnglishKeywordRequest.getId(),
                 selectEnglishKeywordRequest.getSelectedEnglishKeywords());
+        return ResponseEntity.ok(new MessageResponse(ControllerDefaults.SELECTED_ENGLISH_KEYWORDS_SUCCESS));
     }
-    @GetMapping("/api/prompt/{id}")
-    public String findPrompt(@PathVariable Long id) {
-        String prompt = questionService.findPromptById(id);
-        return prompt;
+
+    @GetMapping("prompt/{id}")
+    public ResponseEntity<PromptResponse> findPrompt(@PathVariable Long id) {
+        PromptResponse prompt = PromptResponse.builder()
+                .prompt(questionService.findPromptById(id)).build();
+        return ResponseEntity.ok(prompt);
     }
-    @PutMapping("/api/prompt")
-    public void modifyPrompt(@RequestBody ModifyPromptRequest modifyPromptRequest) {
+
+    @PutMapping("prompt")
+    public ResponseEntity<MessageResponse> modifyPrompt(@RequestBody ModifyPromptRequest modifyPromptRequest) {
         questionService.updatePromptById(
                 modifyPromptRequest.getId(),
                 modifyPromptRequest.getModifiedPrompt());
+        return ResponseEntity.ok(new MessageResponse(ControllerDefaults.MODIFIED_PROMPT_SUCCESS));
     }
 }

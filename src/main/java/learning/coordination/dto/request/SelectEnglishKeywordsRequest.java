@@ -1,4 +1,4 @@
-package learning.coordination.dto.question;
+package learning.coordination.dto.request;
 
 import learning.coordination.dto.question.SelectedEnglishKeywords;
 import lombok.Getter;

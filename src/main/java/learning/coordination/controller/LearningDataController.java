@@ -1,50 +1,59 @@
 package learning.coordination.controller;
 
-import learning.coordination.dto.learning_data.CompletedLearningData;
-import learning.coordination.dto.learning_data.SetLearningTargetRequest;
-import learning.coordination.dto.learning_data.SetMaterialRequest;
-import learning.coordination.dto.learning_data.UpdateAnswerRequest;
+import learning.coordination.controller.default_values.ControllerDefaults;
+import learning.coordination.dto.request.SetLearningTargetRequest;
+import learning.coordination.dto.request.SetMaterialRequest;
+import learning.coordination.dto.request.UpdateAnswerRequest;
+import learning.coordination.dto.response.AnswerResponse;
+import learning.coordination.dto.response.MessageResponse;
+import learning.coordination.dto.learning_data.*;
 import learning.coordination.service.LearningDataService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping(ControllerDefaults.API_BASE_PATH)
 public class LearningDataController {
 
     private final LearningDataService learningDataService;
 
-    @GetMapping("/api/answer/{id}")
-    public String findAnswer(@PathVariable Long id) {
-        String answer = learningDataService.findAnswer(id);
-        return answer;
+    @GetMapping("answer/{id}")
+    public ResponseEntity<AnswerResponse> findAnswer(@PathVariable Long id) {
+        AnswerResponse answer = AnswerResponse.builder()
+                .answer(learningDataService.findAnswer(id))
+                .build();
+        return ResponseEntity.ok(answer);
     }
 
-    @PutMapping("api/answer")
-    public void updateAnswer(@RequestBody UpdateAnswerRequest updateAnswerRequest) {
+    @PutMapping("answer")
+    public ResponseEntity<MessageResponse> updateAnswer(@RequestBody UpdateAnswerRequest updateAnswerRequest) {
         learningDataService.updateAnswer(
                 updateAnswerRequest.getId(),
                 updateAnswerRequest.getModifiedAnswer());
+        return ResponseEntity.ok(new MessageResponse(ControllerDefaults.UPDATED_ANSWER_SUCCESS));
     }
 
-    @PostMapping("api/learning-target")
-    public void setLearningTarget(@RequestBody SetLearningTargetRequest setLearningTargetRequest) {
+    @PostMapping("learning-target")
+    public ResponseEntity<MessageResponse> setLearningTarget(@RequestBody SetLearningTargetRequest setLearningTargetRequest) {
         learningDataService.setLearningTarget(
                 setLearningTargetRequest.getId(),
                 setLearningTargetRequest.getLearningTarget());
+        return ResponseEntity.ok(new MessageResponse(ControllerDefaults.SET_LEARNING_TARGET_SUCCESS));
     }
 
-    @PostMapping("api/material")
-    public void setMaterial(@RequestBody SetMaterialRequest setMaterialRequest) {
+    @PostMapping("material")
+    public ResponseEntity<MessageResponse> setMaterial(@RequestBody SetMaterialRequest setMaterialRequest) {
         learningDataService.setMaterial(
                 setMaterialRequest.getId(),
                 setMaterialRequest.getMaterial());
+        return ResponseEntity.ok(new MessageResponse(ControllerDefaults.SET_MATERIAL_SUCCESS));
     }
 
-    @GetMapping("api/completed-learning-data/{id}")
-    public CompletedLearningData getCompletedLearningData(@PathVariable Long id) {
+    @GetMapping("completed-learning-data/{id}")
+    public ResponseEntity<CompletedLearningData> getCompletedLearningData(@PathVariable Long id) {
         CompletedLearningData completedLearningData =  learningDataService.getCompletedLearningData(id);
-        return completedLearningData;
+        return ResponseEntity.ok(completedLearningData);
     }
-
 }

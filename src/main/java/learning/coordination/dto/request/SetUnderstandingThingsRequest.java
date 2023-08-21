@@ -1,4 +1,4 @@
-package learning.coordination.dto.learning_information;
+package learning.coordination.dto.request;
 
 import lombok.Getter;
 
