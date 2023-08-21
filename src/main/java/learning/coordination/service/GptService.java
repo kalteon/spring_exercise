@@ -3,6 +3,7 @@ package learning.coordination.service;
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.completion.CompletionResult;
 import com.theokanning.openai.service.OpenAiService;
+import learning.coordination.service.api_keys.GptKey;
 import learning.coordination.service.default_values.GptDefaultValues;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class GptService {
 
     public void callGpt(Long id) {
         String prompt = questionService.findPromptById(id);
-        OpenAiService openAiService = new OpenAiService(GptDefaultValues.API_KEY);
+        OpenAiService openAiService = new OpenAiService(GptKey.GPT_API_KEY);
         CompletionRequest request = CompletionRequest.builder()
                 .prompt(prompt)
                 .maxTokens(GptDefaultValues.MAX_TOKENS)
@@ -24,6 +25,7 @@ public class GptService {
                 .build();
         CompletionResult response = openAiService.createCompletion(request);
         String answer = response.getChoices().get(0).getText();
+        learningDataService.initLearningData(id);
         learningDataService.updateAnswer(id, answer);
     }
 }
