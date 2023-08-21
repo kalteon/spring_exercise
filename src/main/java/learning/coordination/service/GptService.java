@@ -22,6 +22,7 @@ public class GptService {
                 .prompt(prompt)
                 .maxTokens(GptDefaultValues.MAX_TOKENS)
                 .temperature(GptDefaultValues.TEMPERATURE)
+                .model(GptDefaultValues.MODEL)
                 .build();
         CompletionResult response = openAiService.createCompletion(request);
         String answer = response.getChoices().get(0).getText();
@@ -29,4 +30,3 @@ public class GptService {
         learningDataService.updateAnswer(id, answer);
     }
 }
-
