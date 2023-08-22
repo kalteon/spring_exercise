@@ -16,7 +16,7 @@ public class LearningData {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(name = "answer", nullable = false, length = 1024)
+    @Column(name = "answer", nullable = false, length = 4096)
     private String answer;
 
     @Column(name = "learning_target", nullable = false, length = 1024)
