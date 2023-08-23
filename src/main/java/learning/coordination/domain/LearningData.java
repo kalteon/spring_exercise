@@ -26,10 +26,11 @@ public class LearningData {
     private String material;
 
     @Builder
-    public LearningData(String answer, String learningTarget, String material) {
+    public LearningData(String answer, String learningTarget, String material, Long id) {
         this.answer = answer;
         this.learningTarget = learningTarget;
         this.material = material;
+        this.id = id;
     }
     public void setId(Long id) {
         this.id = id;

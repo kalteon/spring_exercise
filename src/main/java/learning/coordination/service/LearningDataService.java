@@ -16,41 +16,49 @@ public class LearningDataService {
     private final LearningDataRepository learningDataRepository;
 
     public void initLearningData(Long id) {
-        LearningData learningData = LearningData.builder()
-                .answer(LearningDataDefaultValues.EMPTY_ANSWER)
-                .learningTarget(LearningDataDefaultValues.EMPTY_LEARNING_TARGET)
-                .material(LearningDataDefaultValues.EMPTY_MATERIAL)
-                .build();
-        learningData.setId(id);
-        learningDataRepository.save(learningData);
+        LearningData learningData = createDefaultLearningData(id);
+        saveLearningData(learningData);
     }
+
     public String findAnswer(Long id) {
         LearningData learningData = findLearningData(id);
-        String answer = learningData.getAnswer();
-        return answer;
+        return learningData.getAnswer();
     }
+
     public void updateAnswer(Long id, String modifiedAnswer) {
         LearningData learningData = findLearningData(id);
         learningData.setAnswer(modifiedAnswer);
-        learningDataRepository.save(learningData);
+        saveLearningData(learningData);
     }
+
     public void setLearningTarget(Long id, String learningTarget) {
         LearningData learningData = findLearningData(id);
         learningData.setLearningTarget(learningTarget);
-        learningDataRepository.save(learningData);
+        saveLearningData(learningData);
     }
+
     public void setMaterial(Long id, String material) {
         LearningData learningData = findLearningData(id);
         learningData.setMaterial(material);
-        learningDataRepository.save(learningData);
+        saveLearningData(learningData);
     }
+
     public CompletedLearningData getCompletedLearningData(Long id) {
         LearningData learningData = findLearningData(id);
-        CompletedLearningData completedLearningData = CompletedLearningData.builder()
+        return CompletedLearningData.builder()
                 .modifiedAnswer(learningData.getAnswer())
                 .learningTarget(learningData.getLearningTarget())
                 .material(learningData.getMaterial()).build();
-        return completedLearningData;
+    }
+
+
+    private LearningData createDefaultLearningData(Long id) {
+        return LearningData.builder()
+                .answer(LearningDataDefaultValues.EMPTY_ANSWER)
+                .learningTarget(LearningDataDefaultValues.EMPTY_LEARNING_TARGET)
+                .material(LearningDataDefaultValues.EMPTY_MATERIAL)
+                .id(id)
+                .build();
     }
 
     private LearningData findLearningData(Long id) {
@@ -62,5 +70,9 @@ public class LearningDataService {
         }
         learningData = learningDataOptional.get();
         return learningData;
+    }
+
+    private void saveLearningData(LearningData learningData) {
+        learningDataRepository.save(learningData);
     }
 }

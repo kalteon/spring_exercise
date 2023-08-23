@@ -23,9 +23,10 @@ public class LearningInformation {
     private String misUnderstandingThings;
 
     @Builder
-    public LearningInformation(String understandingThings, String misUnderstandingThings) {
+    public LearningInformation(String understandingThings, String misUnderstandingThings, Long id) {
         this.understandingThings = understandingThings;
         this.misUnderstandingThings = misUnderstandingThings;
+        this.id = id;
     }
     public void setId(Long id) {
         this.id = id;

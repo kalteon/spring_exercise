@@ -16,30 +16,37 @@ public class LearningInformationService {
     private final LearningInformationRepository learningInformationRepository;
 
     public void initLearningInformation(Long id) {
-        LearningInformation learningInformation = LearningInformation.builder()
-                .understandingThings(LearningInformationDefaultValues.EMPTY_UNDERSTANDING_THINGS)
-                .misUnderstandingThings(LearningInformationDefaultValues.EMPTY_MISUNDERSTANDING_THINGS)
-                .build();
-        learningInformation.setId(id);
-        learningInformationRepository.save(learningInformation);
+        LearningInformation learningInformation = createDefaultLearningInformation(id);
+        saveLearningInformation(learningInformation);
     }
+
     public void setUnderstandingThings(Long id, String understandingThings) {
         LearningInformation learningInformation = findLearningInformation(id);
         learningInformation.setUnderstandingThings(understandingThings);
-        learningInformationRepository.save(learningInformation);
+        saveLearningInformation(learningInformation);
     }
+
     public void setMisUnderstandingThings(Long id, String  misUnderstandingThings) {
         LearningInformation learningInformation = findLearningInformation(id);
         learningInformation.setMisUnderstandingThings(misUnderstandingThings);
-        learningInformationRepository.save(learningInformation);
+        saveLearningInformation(learningInformation);
     }
+
     public CompletedLearningInformation getCompletedLearningInformation(Long id) {
         LearningInformation learningInformation = findLearningInformation(id);
-        CompletedLearningInformation completedLearningInformation = CompletedLearningInformation.builder()
+        return CompletedLearningInformation.builder()
                 .understandingThings(learningInformation.getUnderstandingThings())
                 .misUnderstandingThings(learningInformation.getMisUnderstandingThings())
                 .build();
-        return completedLearningInformation;
+    }
+
+
+    private LearningInformation createDefaultLearningInformation(Long id) {
+        return LearningInformation.builder()
+                .understandingThings(LearningInformationDefaultValues.EMPTY_UNDERSTANDING_THINGS)
+                .misUnderstandingThings(LearningInformationDefaultValues.EMPTY_MISUNDERSTANDING_THINGS)
+                .id(id)
+                .build();
     }
 
     private LearningInformation findLearningInformation(Long id) {
@@ -51,5 +58,9 @@ public class LearningInformationService {
         }
         learningInformation = learningInformationOptional.get();
         return learningInformation;
+    }
+
+    private void saveLearningInformation(LearningInformation learningInformation) {
+        learningInformationRepository.save(learningInformation);
     }
 }

@@ -37,12 +37,13 @@ public class Question {
     private String prompt;
 
     @Builder
-    public Question(String template, List<String> difficulties, List<String> fields, List<String> topics, String prompt) {
+    public Question(String template, List<String> difficulties, List<String> fields, List<String> topics, String prompt, Long id) {
         this.template = template;
         this.difficulties = difficulties;
         this.fields = fields;
         this.topics = topics;
         this.prompt = prompt;
+        this.id = id;
     }
     public void setId(Long id) {
         this.id = id;
