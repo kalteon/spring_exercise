@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -21,40 +20,37 @@ public class GptService {
 
     private final QuestionService questionService;
     private final LearningDataService learningDataService;
+    private final OpenAiService openAiService = new OpenAiService(GptToken.GPT_API_TOKEN, Duration.ofSeconds(30));
 
-    public void callGpt(Long id) {
+    public void setAnswer(Long id) {
         String prompt = questionService.findPromptById(id);
-        String answer;
-        OpenAiService service = new OpenAiService(GptToken.GPT_API_TOKEN, Duration.ofSeconds(30));
+        String answer = generateAnswer(prompt);
 
-        final List<ChatMessage> messages = new ArrayList<>();
-        final ChatMessage systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), prompt);
-        messages.add(systemMessage);
+        learningDataService.initLearningData(id);
+        learningDataService.updateAnswer(id, answer);
+    }
 
-        ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest
-                .builder()
+    private String generateAnswer(String prompt) {
+        List<ChatMessage> messages = new ArrayList<>();
+        messages.add(new ChatMessage(ChatMessageRole.SYSTEM.value(), prompt));
+
+        ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
                 .model(GptDefaultValues.MODEL)
                 .messages(messages)
                 .maxTokens(GptDefaultValues.MAX_TOKENS)
                 .n(1)
-                .logitBias(new HashMap<>())
                 .build();
 
         StringBuilder sentence = new StringBuilder();
 
-        service.streamChatCompletion(chatCompletionRequest)
+        openAiService.streamChatCompletion(chatCompletionRequest)
                 .doOnError(Throwable::printStackTrace)
-                .blockingForEach(chatCompletionChunk -> {
-                    for (ChatCompletionChoice choice : chatCompletionChunk.getChoices()) {
-                        String content = choice.getMessage().getContent();
-                        sentence.append(content).append("");
-                    }
-                });
+                .blockingForEach(chatCompletionChunk ->
+                        chatCompletionChunk.getChoices().stream()
+                                .map(ChatCompletionChoice::getMessage)
+                                .map(ChatMessage::getContent)
+                                .forEach(content -> sentence.append(content).append("")));
 
-        service.shutdownExecutor();
-
-        answer = sentence.toString();
-        learningDataService.initLearningData(id);
-        learningDataService.updateAnswer(id, answer);
+        return sentence.toString();
     }
 }

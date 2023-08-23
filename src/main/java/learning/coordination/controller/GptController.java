@@ -16,8 +16,8 @@ public class GptController {
     private final GptService gptService;
 
     @PostMapping("answer")
-    public ResponseEntity<MessageResponse> callGpt(@RequestBody CallGptRequest callGptRequest) {
-        gptService.callGpt(callGptRequest.getId());
+    public ResponseEntity<MessageResponse> setAnswer(@RequestBody CallGptRequest callGptRequest) {
+        gptService.setAnswer(callGptRequest.getId());
         return ResponseEntity.ok(new MessageResponse(ControllerDefaults.CALLED_GPT_SUCCESS));
     }
 }

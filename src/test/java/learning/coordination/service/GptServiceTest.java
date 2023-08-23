@@ -21,7 +21,7 @@ class GptServiceTest {
     public void testCallGpt() {
         // when
         questionService.updatePromptById(GptTestValues.ID, GptTestValues.TEST_PROMPT);
-        gptService.callGpt(GptTestValues.ID);
+        gptService.setAnswer(GptTestValues.ID);
         String resultAnswer = learningDataService.findAnswer(GptTestValues.ID);
         // then
         assertThat(resultAnswer).isEqualTo(GptTestValues.TEST_ANSWER);
