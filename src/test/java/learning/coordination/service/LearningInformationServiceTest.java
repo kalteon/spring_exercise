@@ -27,8 +27,9 @@ class LearningInformationServiceTest {
         // when
         learningInformationService.setUnderstandingThings(LearningInformationTestValues.TEST_ID, LearningInformationTestValues.TEST_UNDERSTANDING_THINGS);
         CompletedLearningInformation result = learningInformationService.getCompletedLearningInformation(LearningInformationTestValues.TEST_ID);
+        String resultUnderstandingThings = result.getUnderstandingThings();
         // then
-        assertThat(result.getUnderstandingThings()).isEqualTo(LearningInformationTestValues.TEST_UNDERSTANDING_THINGS);
+        assertThat(resultUnderstandingThings).isEqualTo(LearningInformationTestValues.TEST_UNDERSTANDING_THINGS);
     }
 
     @Test
@@ -36,8 +37,9 @@ class LearningInformationServiceTest {
         // when
         learningInformationService.setMisUnderstandingThings(LearningInformationTestValues.TEST_ID,LearningInformationTestValues.TEST_MISUNDERSTANDING_THINGS);
         CompletedLearningInformation result = learningInformationService.getCompletedLearningInformation(LearningInformationTestValues.TEST_ID);
+        String resultMisUnderstandingThings = result.getMisUnderstandingThings();
         //
-        assertThat(result.getMisUnderstandingThings()).isEqualTo(LearningInformationTestValues.TEST_MISUNDERSTANDING_THINGS);
+        assertThat(resultMisUnderstandingThings).isEqualTo(LearningInformationTestValues.TEST_MISUNDERSTANDING_THINGS);
     }
 
     @Test
