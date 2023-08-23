@@ -24,25 +24,25 @@ class LearningDataServiceTest {
     }
 
     @Test
-    public void testFindAnswer() {
+    public void shouldFindAnswer() {
         // when
         String expectedAnswer = LearningDataDefaultValues.EMPTY_ANSWER;
-        String actualAnswer = learningDataService.findAnswer(LearningDataTestValues.TEST_ID);
+        String resultAnswer = learningDataService.findAnswer(LearningDataTestValues.TEST_ID);
         //given
-        assertThat(actualAnswer).isEqualTo(expectedAnswer);
+        assertThat(resultAnswer).isEqualTo(expectedAnswer);
     }
 
     @Test
-    public void testUpdateAnswer() {
+    public void shouldUpdateAnswer() {
         // when
         learningDataService.updateAnswer(LearningDataTestValues.TEST_ID, LearningDataTestValues.TEST_ANSWER);
-        String actualUpdatedAnswer = learningDataService.findAnswer(LearningDataTestValues.TEST_ID);
+        String resultUpdatedAnswer = learningDataService.findAnswer(LearningDataTestValues.TEST_ID);
         //then
-        assertThat(actualUpdatedAnswer).isEqualTo(LearningDataTestValues.TEST_ANSWER);
+        assertThat(resultUpdatedAnswer).isEqualTo(LearningDataTestValues.TEST_ANSWER);
     }
 
     @Test
-    public void testSetLearningTarget() {
+    public void shouldSetLearningTarget() {
         // when
         learningDataService.setLearningTarget(LearningDataTestValues.TEST_ID, LearningDataTestValues.TEST_LEARNING_TARGET);
         String resultLearningTarget = learningDataService.getCompletedLearningData(LearningDataTestValues.TEST_ID).getLearningTarget();
@@ -51,7 +51,7 @@ class LearningDataServiceTest {
     }
 
     @Test
-    public void testSetMaterial() {
+    public void shouldSetMaterial() {
         // when
         learningDataService.setMaterial(1L, LearningDataTestValues.TEST_MATERIAL);
         String resultMaterial = learningDataService.getCompletedLearningData(LearningDataTestValues.TEST_ID).getMaterial();
@@ -60,7 +60,7 @@ class LearningDataServiceTest {
     }
 
     @Test
-    public void testGetCompletedLearningData() {
+    public void shouldGetCompletedLearningData() {
         // when
         learningDataService.updateAnswer(LearningDataTestValues.TEST_ID, LearningDataTestValues.TEST_ANSWER);
         learningDataService.setLearningTarget(LearningDataTestValues.TEST_ID, LearningDataTestValues.TEST_LEARNING_TARGET);

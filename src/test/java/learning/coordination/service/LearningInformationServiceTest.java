@@ -23,27 +23,25 @@ class LearningInformationServiceTest {
     }
 
     @Test
-    public void testSetUnderstandingThings() {
+    public void shouldSetUnderstandingThings() {
         // when
         learningInformationService.setUnderstandingThings(LearningInformationTestValues.TEST_ID, LearningInformationTestValues.TEST_UNDERSTANDING_THINGS);
         CompletedLearningInformation result = learningInformationService.getCompletedLearningInformation(LearningInformationTestValues.TEST_ID);
-        String resultUnderstandingThings = result.getUnderstandingThings();
         // then
-        assertThat(resultUnderstandingThings).isEqualTo(LearningInformationTestValues.TEST_UNDERSTANDING_THINGS);
+        assertThat(result.getUnderstandingThings()).isEqualTo(LearningInformationTestValues.TEST_UNDERSTANDING_THINGS);
     }
 
     @Test
-    public void testSetMisUnderstandingThings() {
+    public void shouldSetMisUnderstandingThings() {
         // when
         learningInformationService.setMisUnderstandingThings(LearningInformationTestValues.TEST_ID,LearningInformationTestValues.TEST_MISUNDERSTANDING_THINGS);
         CompletedLearningInformation result = learningInformationService.getCompletedLearningInformation(LearningInformationTestValues.TEST_ID);
-        String resultMisUnderstandingThings = result.getMisUnderstandingThings();
         //
-        assertThat(resultMisUnderstandingThings).isEqualTo(LearningInformationTestValues.TEST_MISUNDERSTANDING_THINGS);
+        assertThat(result.getMisUnderstandingThings()).isEqualTo(LearningInformationTestValues.TEST_MISUNDERSTANDING_THINGS);
     }
 
     @Test
-    public void testGetCompletedLearningInformation() {
+    public void shouldGetCompletedLearningInformation() {
         // when
         CompletedLearningInformation expected = CompletedLearningInformation.builder()
                 .understandingThings(LearningInformationDefaultValues.EMPTY_UNDERSTANDING_THINGS)
